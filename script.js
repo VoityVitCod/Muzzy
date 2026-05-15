@@ -4,6 +4,7 @@ const navLinks = [...document.querySelectorAll(".nav a")];
 const revealItems = [...document.querySelectorAll(".reveal")];
 const parallaxScenes = [...document.querySelectorAll(".js-parallax-scene")];
 const tiltCards = [...document.querySelectorAll(".tilt-card")];
+const autoGalleries = [...document.querySelectorAll("[data-autoscroll]")];
 const logicSection = document.querySelector("#logic");
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches;
@@ -132,6 +133,51 @@ function initCursorGlow() {
   });
 }
 
+function initAutoGalleries() {
+  if (prefersReducedMotion) return;
+
+  autoGalleries.forEach((gallery, index) => {
+    let paused = false;
+    let lastTime = performance.now();
+    const speed = 16 + index * 3;
+
+    gallery.addEventListener("pointerenter", () => {
+      paused = true;
+    });
+
+    gallery.addEventListener("pointerleave", () => {
+      paused = false;
+      lastTime = performance.now();
+    });
+
+    gallery.addEventListener("focusin", () => {
+      paused = true;
+    });
+
+    gallery.addEventListener("focusout", () => {
+      paused = false;
+      lastTime = performance.now();
+    });
+
+    function tick(now) {
+      const delta = now - lastTime;
+      lastTime = now;
+
+      if (!paused && gallery.scrollWidth > gallery.clientWidth + 2) {
+        gallery.scrollLeft += (delta / 1000) * speed;
+
+        if (gallery.scrollLeft >= gallery.scrollWidth - gallery.clientWidth - 2) {
+          gallery.scrollLeft = 0;
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  });
+}
+
 function handleScroll() {
   setScrollProgress();
   setLogicProgress();
@@ -142,6 +188,7 @@ initSectionObserver();
 initParallax();
 initTiltCards();
 initCursorGlow();
+initAutoGalleries();
 handleScroll();
 
 window.addEventListener("scroll", handleScroll, { passive: true });
