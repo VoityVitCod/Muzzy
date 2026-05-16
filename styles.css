@@ -561,10 +561,16 @@ select {
 
 .structure-ring {
   position: absolute;
-  inset: 12%;
+  left: 50%;
+  top: 46%;
+  width: min(74%, 318px);
+  aspect-ratio: 1;
   border-radius: 50%;
   border: 1px solid rgba(127, 164, 190, 0.2);
-  animation: slowSpin 18s linear infinite;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  animation: orbitSpin 18s linear infinite;
 }
 
 .structure-ring span {
@@ -1189,10 +1195,10 @@ select {
 .gallery-rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(290px, 36%);
+  grid-auto-columns: minmax(300px, 34%);
   gap: 18px;
   overflow-x: auto;
-  align-items: start;
+  align-items: stretch;
   padding: 4px 2px 18px;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
@@ -1230,6 +1236,8 @@ select {
 }
 
 .gallery-card {
+  display: flex;
+  flex-direction: column;
   scroll-snap-align: start;
   overflow: hidden;
   border-radius: var(--radius-lg);
@@ -1239,9 +1247,11 @@ select {
 }
 
 .gallery-card summary {
-  display: block;
+  display: grid;
+  grid-template-rows: auto auto minmax(3.1em, auto) minmax(2.7em, auto);
   cursor: pointer;
   list-style: none;
+  min-height: 408px;
 }
 
 .gallery-card summary::-webkit-details-marker {
@@ -1251,7 +1261,9 @@ select {
 .gallery-card img {
   width: 100%;
   aspect-ratio: 4 / 3;
+  height: auto;
   object-fit: cover;
+  object-position: center;
 }
 
 .gallery-card summary,
@@ -1272,11 +1284,13 @@ select {
 
 .gallery-card summary > .card-label {
   display: block;
+  width: fit-content;
   margin-top: 14px;
 }
 
 .gallery-card h3 {
   margin-top: 8px;
+  min-height: 3.1em;
 }
 
 .gallery-card p {
@@ -1284,7 +1298,12 @@ select {
   font-size: 0.9rem;
 }
 
+.gallery-card summary > p {
+  min-height: 2.7em;
+}
+
 .gallery-card-info {
+  flex: 1;
   border-top: 1px solid rgba(111, 98, 92, 0.1);
   background: rgba(255, 255, 255, 0.52);
 }
@@ -1609,6 +1628,15 @@ code {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
