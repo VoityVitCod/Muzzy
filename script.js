@@ -189,6 +189,7 @@ initParallax();
 initTiltCards();
 initCursorGlow();
 initAutoGalleries();
+root.classList.add("js-reveal-ready");
 handleScroll();
 
 window.addEventListener("scroll", handleScroll, { passive: true });

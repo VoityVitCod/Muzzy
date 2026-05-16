@@ -1538,13 +1538,19 @@ select {
 }
 
 .reveal {
-  --reveal-offset: var(--reveal-y);
-  opacity: 0;
-  transform: translateY(var(--reveal-offset));
+  --reveal-offset: 0px;
+  opacity: 1;
+  transform: translateY(0);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.reveal.is-visible {
+html.js-reveal-ready .reveal {
+  --reveal-offset: var(--reveal-y);
+  opacity: 0;
+  transform: translateY(var(--reveal-offset));
+}
+
+html.js-reveal-ready .reveal.is-visible {
   opacity: 1;
   --reveal-offset: 0px;
   transform: translateY(var(--reveal-offset));
@@ -1554,8 +1560,7 @@ select {
   --tilt-x: 0deg;
   --tilt-y: 0deg;
   --tilt-scale: 1;
-  --reveal-offset: 0px;
-  transform: perspective(1200px) translateY(var(--reveal-offset)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--tilt-scale));
+  transform: perspective(1200px) translateY(var(--reveal-offset, 0px)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) scale(var(--tilt-scale));
 }
 
 code {
