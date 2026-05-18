@@ -1,2 +1,2 @@
 Pages rebuild trigger
-Triggered at: 2026-05-18 13:00 MSK
+Triggered at: 2026-05-18 14:00 MSK
